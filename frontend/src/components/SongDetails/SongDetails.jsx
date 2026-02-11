@@ -1,8 +1,8 @@
-export default function SongDetails({ song }) {
+export default function SongDetails({ song, api }) {
     return (
         <div style={{ padding: 20, display: "flex", gap: 20, }}>
             <img
-                src={`http://localhost:3001/cover?title=${encodeURIComponent(
+                src={`${api}/cover?title=${encodeURIComponent(
                     song.title
                 )}&artist=${encodeURIComponent(song.artist)}&seed=${song.index}`}
                 width={200}
@@ -17,7 +17,7 @@ export default function SongDetails({ song }) {
                     <audio
                         controls
                         style={{ width: '50%' }}
-                        src={`http://localhost:3001/audio?songId=${song.index}&seed=${song.index}`}
+                        src={`${api}/audio?songId=${song.index}&seed=${song.index}`}
                     />
                 </div>
                 <p>from <b>{song.album}</b> by <b>{song.artist}</b></p>

@@ -196,7 +196,7 @@ function App() {
                                         transition={{ duration: 0.4 }}
                                         style={{ overflow: 'hidden' }}
                                     >
-                                        <SongDetails song={record} />
+                                        <SongDetails song={record} api={API}/>
                                     </motion.div>
                                 )}
                             </AnimatePresence>
