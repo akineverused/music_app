@@ -41,18 +41,38 @@ app.get('/audio', async (req, res) => {
 
 app.get('/cover', (req, res) => {
     const { title, artist, seed } = req.query;
-
     const rng = require('seedrandom')(seed);
 
-    const r = Math.floor(rng() * 255);
-    const g = Math.floor(rng() * 255);
-    const b = Math.floor(rng() * 255);
+    const hue = Math.floor(rng() * 360);
+    const bgHue = (hue + 40) % 360;
+
+    const circles = Array.from({ length: 5 }).map(() => {
+        const cx = rng() * 300;
+        const cy = rng() * 300;
+        const r = 40 + rng() * 80;
+        const opacity = 0.1 + rng() * 0.3;
+        return `
+      <circle cx="${cx}" cy="${cy}" r="${r}"
+        fill="hsla(${hue}, 70%, 60%, ${opacity})" />
+    `;
+    }).join('');
 
     const svg = `
     <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
-      <rect width="300" height="300" fill="rgb(${r},${g},${b})"/>
-      
-      <text x="150" y="130"
+      <defs>
+        <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="hsl(${hue}, 70%, 40%)"/>
+          <stop offset="100%" stop-color="hsl(${bgHue}, 70%, 60%)"/>
+        </linearGradient>
+      </defs>
+
+      <rect width="300" height="300" fill="url(#grad)" />
+
+      ${circles}
+
+      <rect y="200" width="300" height="100" fill="rgba(0,0,0,0.4)" />
+
+      <text x="150" y="235"
         font-size="20"
         fill="white"
         text-anchor="middle"
@@ -61,8 +81,8 @@ app.get('/cover', (req, res) => {
         ${escapeXML(title)}
       </text>
 
-      <text x="150" y="180"
-        font-size="16"
+      <text x="150" y="265"
+        font-size="14"
         fill="white"
         text-anchor="middle"
         font-family="Arial">
