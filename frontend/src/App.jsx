@@ -14,7 +14,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import SongDetails from './components/SongDetails/SongDetails.jsx';
 
 const { Content } = Layout;
-const API = ""
+const API = "https://music-app-usi3.onrender.com/"
 
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
     useEffect(() => {
         if (view !== 'table') return;
         setLoading(true);
-        axios.get('http://localhost:3001/songs', {
+        axios.get(`${API}/songs`, {
                 params: {page, seed, likes, lang,},
             })
             .then(res => setData(res.data.songs))
@@ -51,7 +51,7 @@ function App() {
 
     useEffect(() => {
         if (view !== 'gallery') return;
-        axios.get('http://localhost:3001/songs', {
+        axios.get(`${API}/songs`, {
                 params: {page, seed, likes, lang,},
             })
             .then(res => {
