@@ -38,7 +38,6 @@ app.get('/audio', async (req, res) => {
     res.send(Buffer.from(wavBuffer));
 });
 
-const { generateCover } = require('./src/coverGenerator');
 
 app.get('/cover', (req, res) => {
     const { title, artist, seed } = req.query;
