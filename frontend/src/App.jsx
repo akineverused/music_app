@@ -52,7 +52,7 @@ function App() {
     useEffect(() => {
         if (view !== 'gallery') return;
         axios.get(`${API}/songs`, {
-                params: {galleryPage, seed, likes, lang,},
+                params: {page: galleryPage, seed, likes, lang,},
             })
             .then(res => {
                 setGalleryData(prev =>
