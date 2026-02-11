@@ -14,6 +14,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import SongDetails from './components/SongDetails/SongDetails.jsx';
 
 const { Content } = Layout;
+const API = ""
+
 
 function App() {
     const [data, setData] = useState([]);

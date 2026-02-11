@@ -43,11 +43,45 @@ const { generateCover } = require('./src/coverGenerator');
 app.get('/cover', (req, res) => {
     const { title, artist, seed } = req.query;
 
-    const buffer = generateCover({ title, artist, seed });
+    const rng = require('seedrandom')(seed);
 
-    res.setHeader('Content-Type', 'image/png');
-    res.send(buffer);
+    const r = Math.floor(rng() * 255);
+    const g = Math.floor(rng() * 255);
+    const b = Math.floor(rng() * 255);
+
+    const svg = `
+    <svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+      <rect width="300" height="300" fill="rgb(${r},${g},${b})"/>
+      
+      <text x="150" y="130"
+        font-size="20"
+        fill="white"
+        text-anchor="middle"
+        font-family="Arial"
+        font-weight="bold">
+        ${escapeXML(title)}
+      </text>
+
+      <text x="150" y="180"
+        font-size="16"
+        fill="white"
+        text-anchor="middle"
+        font-family="Arial">
+        ${escapeXML(artist)}
+      </text>
+    </svg>
+  `;
+
+    res.setHeader('Content-Type', 'image/svg+xml');
+    res.send(svg);
 });
+
+function escapeXML(str) {
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
