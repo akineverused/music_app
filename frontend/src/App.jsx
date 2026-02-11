@@ -14,7 +14,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import SongDetails from './components/SongDetails/SongDetails.jsx';
 
 const { Content } = Layout;
-const API = "https://music-app-usi3.onrender.com/"
+const API = import.meta.env.VITE_API_URL;
 
 
 function App() {
